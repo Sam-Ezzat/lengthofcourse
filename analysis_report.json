@@ -1,0 +1,45 @@
+{
+  "folder_path": "C:\\Users\\SAM-PC\\lengthofcourse",
+  "scan_time": "2025-09-19T11:58:09.100733",
+  "total_files": 6,
+  "classified_files": {
+    "code": [
+      "C:\\Users\\SAM-PC\\lengthofcourse\\file_classifier.py",
+      "C:\\Users\\SAM-PC\\lengthofcourse\\folder_analyzer.py",
+      "C:\\Users\\SAM-PC\\lengthofcourse\\media_utils.py"
+    ],
+    "others": [
+      "C:\\Users\\SAM-PC\\lengthofcourse\\README.md",
+      "C:\\Users\\SAM-PC\\lengthofcourse\\__pycache__\\file_classifier.cpython-313.pyc",
+      "C:\\Users\\SAM-PC\\lengthofcourse\\__pycache__\\media_utils.cpython-313.pyc"
+    ]
+  },
+  "file_summary": {
+    "code": {
+      "count": 3,
+      "extensions": [
+        ".py"
+      ],
+      "files": [
+        "C:\\Users\\SAM-PC\\lengthofcourse\\file_classifier.py",
+        "C:\\Users\\SAM-PC\\lengthofcourse\\folder_analyzer.py",
+        "C:\\Users\\SAM-PC\\lengthofcourse\\media_utils.py"
+      ]
+    },
+    "others": {
+      "count": 3,
+      "extensions": [
+        ".md",
+        ".pyc"
+      ],
+      "files": [
+        "C:\\Users\\SAM-PC\\lengthofcourse\\README.md",
+        "C:\\Users\\SAM-PC\\lengthofcourse\\__pycache__\\file_classifier.cpython-313.pyc",
+        "C:\\Users\\SAM-PC\\lengthofcourse\\__pycache__\\media_utils.cpython-313.pyc"
+      ]
+    }
+  },
+  "media_durations": {},
+  "total_size": 34738,
+  "ffmpeg_available": false
+}

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Folder Explorer & Media Duration Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-folder-open"></i>
+                    <h1>Folder Explorer</h1>
+                </div>
+                <p class="subtitle">Analyze folder structure and calculate media durations</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Input Section -->
+            <section class="input-section">
+                <div class="card">
+                    <h2><i class="fas fa-search"></i> Select Folder to Analyze</h2>
+                    
+                    <!-- Folder Path Input -->
+                    <div class="form-group">
+                        <label for="folderPath">Folder Path:</label>
+                        <div class="input-group">
+                            <input type="text" id="folderPath" placeholder="Enter folder path (e.g., C:\Users\YourName\Documents)" />
+                            <button type="button" id="browseButton" class="btn btn-secondary">
+                                <i class="fas fa-folder"></i> Browse
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Quick Folders -->
+                    <div class="form-group">
+                        <label>Quick Access:</label>
+                        <div id="quickFolders" class="quick-folders">
+                            <div class="loading">Loading common folders...</div>
+                        </div>
+                    </div>
+
+                    <!-- Options -->
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <label class="checkbox">
+                                <input type="checkbox" id="calculateDurations" checked>
+                                <span class="checkmark"></span>
+                                Calculate media durations (requires FFmpeg)
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Analyze Button -->
+                    <div class="form-group">
+                        <button id="analyzeButton" class="btn btn-primary">
+                            <i class="fas fa-play"></i> Start Analysis
+                        </button>
+                        <button id="cancelButton" class="btn btn-danger" style="display: none;">
+                            <i class="fas fa-stop"></i> Cancel
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Progress Section -->
+            <section id="progressSection" class="progress-section" style="display: none;">
+                <div class="card">
+                    <h2><i class="fas fa-spinner fa-spin"></i> Analysis in Progress</h2>
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div id="progressFill" class="progress-fill"></div>
+                        </div>
+                        <div id="progressText" class="progress-text">Starting analysis...</div>
+                        <div id="progressPercent" class="progress-percent">0%</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section id="resultsSection" class="results-section" style="display: none;">
+                <div class="card">
+                    <div class="results-header">
+                        <h2><i class="fas fa-chart-bar"></i> Analysis Results</h2>
+                        <button id="exportButton" class="btn btn-secondary">
+                            <i class="fas fa-download"></i> Export JSON
+                        </button>
+                    </div>
+
+                    <!-- Summary Cards -->
+                    <div class="summary-grid">
+                        <div class="summary-card">
+                            <div class="summary-icon">
+                                <i class="fas fa-files"></i>
+                            </div>
+                            <div class="summary-content">
+                                <div class="summary-value" id="totalFiles">0</div>
+                                <div class="summary-label">Total Files</div>
+                            </div>
+                        </div>
+
+                        <div class="summary-card">
+                            <div class="summary-icon">
+                                <i class="fas fa-hdd"></i>
+                            </div>
+                            <div class="summary-content">
+                                <div class="summary-value" id="totalSize">0 B</div>
+                                <div class="summary-label">Total Size</div>
+                            </div>
+                        </div>
+
+                        <div class="summary-card">
+                            <div class="summary-icon">
+                                <i class="fas fa-video"></i>
+                            </div>
+                            <div class="summary-content">
+                                <div class="summary-value" id="videoDuration">0s</div>
+                                <div class="summary-label">Video Duration</div>
+                            </div>
+                        </div>
+
+                        <div class="summary-card">
+                            <div class="summary-icon">
+                                <i class="fas fa-music"></i>
+                            </div>
+                            <div class="summary-content">
+                                <div class="summary-value" id="audioDuration">0s</div>
+                                <div class="summary-label">Audio Duration</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FFmpeg Status -->
+                    <div id="ffmpegStatus" class="ffmpeg-status" style="display: none;">
+                        <div class="warning-card">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <div class="warning-content">
+                                <strong>FFmpeg Not Available</strong>
+                                <p>Media duration calculation requires FFmpeg. Install FFmpeg to get accurate video and audio durations.</p>
+                                <a href="https://ffmpeg.org/download.html" target="_blank" class="btn btn-small">
+                                    <i class="fas fa-download"></i> Download FFmpeg
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- File Types Chart -->
+                    <div class="chart-container">
+                        <h3><i class="fas fa-pie-chart"></i> File Types Distribution</h3>
+                        <div id="fileTypesChart" class="file-types-chart">
+                            <!-- Chart will be generated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Detailed Results -->
+                    <div class="details-container">
+                        <h3><i class="fas fa-list"></i> Detailed Breakdown</h3>
+                        <div id="detailedResults" class="detailed-results">
+                            <!-- Detailed results will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Raw Data -->
+                    <div class="raw-data-container">
+                        <h3>
+                            <i class="fas fa-code"></i> Raw Data
+                            <button id="toggleRawData" class="btn btn-sm btn-secondary">
+                                <i class="fas fa-eye"></i> Show
+                            </button>
+                        </h3>
+                        <pre id="rawDataContent" class="raw-data" style="display: none;"></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Error Section -->
+            <section id="errorSection" class="error-section" style="display: none;">
+                <div class="card error-card">
+                    <h2><i class="fas fa-exclamation-triangle"></i> Error</h2>
+                    <div id="errorMessage" class="error-message"></div>
+                    <button id="retryButton" class="btn btn-primary">
+                        <i class="fas fa-redo"></i> Try Again
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2025 Folder Explorer & Media Duration Calculator</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
